@@ -1,0 +1,274 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================== ROOT VARIABLES ===================== */
+:root {
+  --space-900: #000000;
+  --space-800: #07070a;
+  --space-700: #0f0f14;
+  --cyan: #3B82F6;
+  --nebula: #8B5CF6;
+  --rocket: #ff6b35;
+  --mission-green: #00ff88;
+  --gold: #ffd700;
+}
+
+/* ===================== BASE ===================== */
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--space-900);
+  color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.6); }
+
+/* ===================== COMPONENT CLASSES ===================== */
+@layer components {
+  /* Premium Apple Vision / Vercel Glass Card */
+  .glass-card {
+    @apply rounded-xl border border-white/5 backdrop-blur-xl transition-all duration-300;
+    background: rgba(7, 7, 10, 0.65);
+    box-shadow: 
+      0 12px 40px 0 rgba(0, 0, 0, 0.75), 
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.3);
+  }
+  .glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(12, 12, 16, 0.75);
+    box-shadow: 
+      0 16px 48px 0 rgba(0, 0, 0, 0.9), 
+      0 0 1px 1px rgba(255, 255, 255, 0.05),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card-cyan {
+    @apply glass-card border-blue-500/10;
+    box-shadow: 
+      0 12px 40px 0 rgba(0, 0, 0, 0.6), 
+      0 0 1px 1px rgba(59, 130, 246, 0.15), 
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+  .glass-card-cyan:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 
+      0 16px 48px 0 rgba(0, 0, 0, 0.7), 
+      0 0 16px 2px rgba(59, 130, 246, 0.15), 
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card-nebula {
+    @apply glass-card border-violet-500/10;
+    box-shadow: 
+      0 12px 40px 0 rgba(0, 0, 0, 0.6), 
+      0 0 1px 1px rgba(139, 92, 246, 0.15), 
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+  .glass-card-nebula:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+    box-shadow: 
+      0 16px 48px 0 rgba(0, 0, 0, 0.7), 
+      0 0 16px 2px rgba(139, 92, 246, 0.15), 
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* Linear-style Buttons */
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 relative overflow-hidden text-white flex items-center justify-center gap-2;
+    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    box-shadow: 
+      0 1px 2px rgba(0,0,0,0.05),
+      0 4px 12px rgba(59, 130, 246, 0.2), 
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+    box-shadow: 
+      0 1px 2px rgba(0,0,0,0.05),
+      0 8px 20px rgba(59, 130, 246, 0.4), 
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 
+      0 1px 2px rgba(0,0,0,0.05),
+      0 2px 8px rgba(59, 130, 246, 0.2);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-lg font-semibold text-sm border border-white/10 text-white/90 transition-all duration-300 backdrop-blur-md flex items-center justify-center gap-2;
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  .btn-secondary:hover {
+    @apply border-white/20 text-white bg-white/5;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .btn-danger {
+    @apply px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 text-white;
+    background: linear-gradient(180deg, #ff6b35 0%, #cc4422 100%);
+    border: 1px solid rgba(255, 107, 83, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  .btn-danger:hover { 
+    background: linear-gradient(180deg, #ff8254 0%, #dd4a22 100%);
+    box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35); 
+    transform: translateY(-1px); 
+  }
+
+  /* Status badges */
+  .badge-active    { @apply px-2.5 py-1 rounded-full text-xs font-semibold bg-mission-green/10 text-mission-green border border-mission-green/20; }
+  .badge-critical  { @apply px-2.5 py-1 rounded-full text-xs font-semibold bg-rocket/10 text-rocket border border-rocket/20; }
+  .badge-standby   { @apply px-2.5 py-1 rounded-full text-xs font-semibold bg-mission-gold/10 text-mission-gold border border-mission-gold/20; }
+  .badge-completed { @apply px-2.5 py-1 rounded-full text-xs font-semibold bg-cyan/10 text-blue-400 border border-blue-500/20; }
+  .badge-planning  { @apply px-2.5 py-1 rounded-full text-xs font-semibold bg-nebula/10 text-violet-400 border border-violet-500/20; }
+  .badge-failed    { @apply px-2.5 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20; }
+
+  /* Heading Font Families */
+  .font-heading { font-family: 'General Sans', sans-serif; }
+  .font-hero { font-family: 'Clash Display', sans-serif; }
+  .font-body { font-family: 'Inter', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Premium Neon Glow Text */
+  .text-glow-cyan   { text-shadow: 0 0 12px rgba(59, 130, 246, 0.6), 0 0 24px rgba(59, 130, 246, 0.2); }
+  .text-glow-nebula { text-shadow: 0 0 12px rgba(139, 92, 246, 0.6), 0 0 24px rgba(139, 92, 246, 0.2); }
+  .text-glow-green  { text-shadow: 0 0 12px rgba(0, 255, 136, 0.6), 0 0 24px rgba(0, 255, 136, 0.2); }
+
+  /* Space Input fields */
+  .input-space {
+    @apply w-full px-4 py-3 rounded-lg text-sm text-white placeholder-gray-500 outline-none transition-all duration-300;
+    background: rgba(11, 16, 32, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  .input-space:focus {
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 
+      0 0 0 3px rgba(59, 130, 246, 0.15),
+      inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    background: rgba(11, 16, 32, 0.8);
+  }
+
+  /* Divider */
+  .divider-glow {
+    @apply h-px;
+    background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.3), transparent);
+  }
+
+  /* Section label */
+  .section-label {
+    @apply text-xs font-semibold tracking-widest uppercase text-blue-400/80 font-mono;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    @apply h-2 rounded-full overflow-hidden;
+    background: rgba(255,255,255,0.05);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  .progress-fill-cyan   { @apply h-full rounded-full transition-all duration-700; background: linear-gradient(to right, #1d4ed8, #3b82f6); }
+  .progress-fill-green  { @apply h-full rounded-full transition-all duration-700; background: linear-gradient(to right, #00aa55, #00ff88); }
+  .progress-fill-rocket { @apply h-full rounded-full transition-all duration-700; background: linear-gradient(to right, #cc4422, #ff6b35); }
+  .progress-fill-gold   { @apply h-full rounded-full transition-all duration-700; background: linear-gradient(to right, #cc9900, #ffd700); }
+
+  /* Pulse dot */
+  .pulse-dot {
+    @apply relative inline-flex h-2.5 w-2.5;
+  }
+  .pulse-dot::before {
+    content: '';
+    @apply absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping;
+  }
+  .pulse-dot-green::before  { @apply bg-mission-green; }
+  .pulse-dot-green > span   { @apply relative inline-flex rounded-full h-2.5 w-2.5 bg-mission-green; }
+  .pulse-dot-red::before    { @apply bg-red-500; }
+  .pulse-dot-red > span     { @apply relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500; }
+  .pulse-dot-yellow::before { @apply bg-yellow-400; }
+  .pulse-dot-yellow > span  { @apply relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400; }
+}
+
+/* ===================== ANIMATIONS ===================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(0,212,255,0.3); box-shadow: 0 0 5px rgba(0,212,255,0.1); }
+  50%       { border-color: rgba(0,212,255,0.7); box-shadow: 0 0 15px rgba(0,212,255,0.3); }
+}
+@keyframes scanline {
+  0%   { top: -5%; }
+  100% { top: 105%; }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+.animate-fade-in    { animation: fadeIn 0.4s ease-out forwards; }
+.animate-border-glow { animation: borderGlow 2s ease-in-out infinite; }
+
+/* Stagger children */
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.7s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.8s; }
+
+/* ===================== RECHARTS OVERRIDES ===================== */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(255,255,255,0.06) !important;
+}
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: rgba(10,15,30,0.95) !important;
+  border: 1px solid rgba(0,212,255,0.3) !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(10px) !important;
+}
+.recharts-legend-item-text { color: rgba(255,255,255,0.7) !important; }
+
+/* ===================== MISSION STATUS COLORS ===================== */
+.status-active    { color: #00ff88; }
+.status-critical  { color: #ff6b35; }
+.status-planning  { color: #7b2fff; }
+.status-completed { color: #00d4ff; }
+.status-standby   { color: #ffd700; }
+.status-failed    { color: #ef4444; }
+
+/* DevOps status */
+.devops-operational { color: #00ff88; }
+.devops-degraded    { color: #ffd700; }
+.devops-down        { color: #ff6b35; }
