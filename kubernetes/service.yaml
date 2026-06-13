@@ -1,0 +1,64 @@
+# ==========================================
+# Kubernetes Networking Services
+# ==========================================
+
+# ------------------------------------------
+# DATABASE SERVICE (MongoDB)
+# ------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: astronet-mongodb-service
+  namespace: astronet
+  labels:
+    app: astronet-mongodb
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+      name: mongodb
+  selector:
+    app: astronet-mongodb
+  type: ClusterIP
+
+---
+# ------------------------------------------
+# BACKEND API SERVICE (Express)
+# ------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: astronet-backend-service
+  namespace: astronet
+  labels:
+    app: astronet-backend
+spec:
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30500 # Explicit NodePort for manual access checks
+      name: api
+  selector:
+    app: astronet-backend
+  type: NodePort
+
+---
+# ------------------------------------------
+# FRONTEND CLIENT SERVICE (React + Nginx)
+# ------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: astronet-frontend-service
+  namespace: astronet
+  labels:
+    app: astronet-frontend
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080 # Explicit NodePort for direct web access
+      name: http
+  selector:
+    app: astronet-frontend
+  type: NodePort

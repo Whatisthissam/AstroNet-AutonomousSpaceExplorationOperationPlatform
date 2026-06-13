@@ -1,0 +1,37 @@
+# ==========================================
+# Kubernetes Ingress Controller Routing
+# ==========================================
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: astronet-ingress
+  namespace: astronet
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # Allow larger payloads for telemetry uploads
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  rules:
+    - host: astronet.local
+      http:
+        paths:
+          # Route traffic under /api to backend Express API
+          - path: /api/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: astronet-backend-service
+                port:
+                  number: 5000
+          # Route all other web traffic to the Nginx static frontend
+          - path: /?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: astronet-frontend-service
+                port:
+                  number: 80

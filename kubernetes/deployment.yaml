@@ -1,0 +1,211 @@
+# ==========================================
+# Kubernetes Workload Deployments
+# ==========================================
+
+# ------------------------------------------
+# DATABASE WORKLOAD (MongoDB)
+# ------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: astronet-mongodb
+  namespace: astronet
+  labels:
+    app: astronet-mongodb
+    tier: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: astronet-mongodb
+  template:
+    metadata:
+      labels:
+        app: astronet-mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:7
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
+              name: mongodbport
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: "astronet"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          readinessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
+
+---
+# ------------------------------------------
+# BACKEND API WORKLOAD (Express)
+# ------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: astronet-backend
+  namespace: astronet
+  labels:
+    app: astronet-backend
+    tier: api
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: astronet-backend
+  template:
+    metadata:
+      labels:
+        app: astronet-backend
+    spec:
+      containers:
+        - name: backend
+          image: docker.io/astronet/astronet-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+              name: apiport
+          envFrom:
+            - configMapRef:
+                name: astronet-config
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: astronet-secret
+                  key: JWT_SECRET
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: astronet-secret
+                  key: VAULT_TOKEN
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 2
+
+---
+# ------------------------------------------
+# FRONTEND CLIENT WORKLOAD (React + Nginx)
+# ------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: astronet-frontend
+  namespace: astronet
+  labels:
+    app: astronet-frontend
+    tier: web
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: astronet-frontend
+  template:
+    metadata:
+      labels:
+        app: astronet-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: docker.io/astronet/astronet-client:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: httpport
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+
+---
+# ------------------------------------------
+# PERSISTENT STORAGE (MongoDB PVC)
+# ------------------------------------------
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pvc
+  namespace: astronet
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+

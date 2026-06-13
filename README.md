@@ -1,219 +1,224 @@
 # 🚀 AstroNet – Autonomous Space Exploration Operations Platform
 
-> **Production-quality MERN Stack NASA Mission Control Platform**  
-> Built for DevOps semester project demonstration.
-
-![AstroNet Banner](https://img.shields.io/badge/AstroNet-Mission_Control-00d4ff?style=for-the-badge&logo=rocket&logoColor=white)
-![MERN Stack](https://img.shields.io/badge/Stack-MERN-7b2fff?style=for-the-badge)
-![Docker Ready](https://img.shields.io/badge/Docker-Ready-00ff88?style=for-the-badge&logo=docker)
+> **Enterprise-Grade DevOps & Site Reliability Engineering (SRE) Demonstration Project**  
+> An academic MERN-stack space mission control and operations center scaled with Terraform, Kubernetes, Jenkins CI/CD, Prometheus, Grafana, ELK Stack, and HashiCorp Vault.
 
 ---
 
-## 🌌 Overview
+## 🌌 Project Overview
 
-AstroNet is a full-stack MERN application simulating a real NASA-grade mission control center. It features a futuristic space-themed UI, real-time simulated telemetry, mission management, incident tracking, system logs, and a comprehensive DevOps operations dashboard.
-
----
-
-## ✨ Key Features
-
-| Feature | Description |
-|---------|-------------|
-| 🌍 **3D Earth Globe** | Interactive R3F/Three.js Earth with orbiting satellites |
-| 📡 **Live Telemetry** | Auto-refreshing simulated spacecraft sensor data |
-| 🚀 **Mission Control** | Full mission CRUD with health scoring |
-| ⚠️ **Incident Management** | Timeline-based incident tracking with recovery actions |
-| 📊 **Analytics** | Recharts visualizations (Area, Bar, Line, Radar) |
-| 📋 **System Logs** | Searchable, filterable log stream with severity levels |
-| 🛠️ **DevOps Dashboard** | Docker, K8s, Jenkins, Terraform, Prometheus, Grafana, ELK, Vault |
-| 👑 **Admin Panel** | User management, mission registry, service health |
-| 🔐 **JWT Auth** | Role-based access (Admin, Controller, Analyst) |
+**AstroNet** is a real-time NASA-grade space exploration mission control simulation platform. Originally built on a MERN (MongoDB, Express, React, Node.js) stack, this project has been elevated to an **enterprise-ready DevOps showcase**. It features a modern, space-themed futuristic user interface, dynamic telemetry updates, mission configuration panels, system audit logging, and a dedicated DevOps operations control dashboard.
 
 ---
 
-## 🗂️ Project Structure
+## ⚠️ Problem Statement
+
+Space exploration missions involve high-velocity telemetry streams, strict security configurations, and zero-tolerance limits for application downtime. Standard monolithic setups suffer from single-point-of-failure vulnerabilities, untracked operational logs, hardcoded security keys, manual deploy bottlenecks, and lack of system metrics tracking. 
+
+AstroNet addresses these constraints by demonstrating how to migrate a modern full-stack web application into a highly available, monitored, secured, and automated containerized cloud architecture.
+
+---
+
+## 🎯 Objectives
+
+1. **Automation**: Build a complete Jenkins declarative CI/CD pipeline from checkout to verification checks.
+2. **Infrastructure-as-Code (IaC)**: Script scalable, repeatable cloud infrastructure components on AWS using Terraform modules.
+3. **Container Orchestration**: Standardize microservices scaling, ingress path routing, and volume storage using Kubernetes (EKS).
+4. **Telemetry Observability**: Establish Prometheus pollers and Grafana dashboard alerts tracking system health and simulated telemetry values.
+5. **Centralized Auditing**: Direct all stdout stream logs through Logstash pipelines into Elasticsearch for Kibana search indexing.
+6. **Key Governance**: Move secrets out of configuration files and load them dynamically from a HashiCorp Vault KV secrets engine.
+7. **Disaster Recovery**: Implement automated database dumps, pod rollbacks, and recovery playbooks for production outages.
+
+---
+
+## 🏗️ Architecture
+
+AstroNet implements a fully automated DevOps pipeline feeding an isolated cluster environment:
 
 ```
-astronet/
-├── client/                    # React + Vite Frontend
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── layout/        # Sidebar, Navbar, AppLayout, Starfield
-│   │   │   ├── three/         # HeroScene (3D Earth + Satellites)
-│   │   │   └── ui/            # GlassCard, StatusBadge, StatCounter, TelemetryGauge
-│   │   ├── context/           # AuthContext (JWT)
-│   │   ├── pages/             # Landing, Login, Dashboard, Telemetry, Analytics,
-│   │   │                      # Incidents, SystemLogs, DevOps, AdminPanel
-│   │   └── services/          # axios API layer
-│   └── tailwind.config.js
-│
-├── server/                    # Node.js + Express Backend
-│   ├── src/
-│   │   ├── config/db.js       # MongoDB connection
-│   │   ├── models/            # User, Mission, Telemetry, Incident, Log
-│   │   ├── controllers/       # auth, mission, telemetry, incident, log, devops, user, analytics
-│   │   ├── routes/            # REST API routes
-│   │   └── middleware/        # JWT auth, error handler
-│   ├── scripts/seed.js        # Database seeder
-│   └── server.js
-│
-└── docker-compose.yml
+[GitHub Repo] ──(Webhook)──> [Jenkins Pipeline] ──(Docker Build)──> [Container Registry]
+                                                                          │
+[Users / Clients] ──> [AWS ALB / Ingress] ──> [Kubernetes Pods] <─────────┘
+                                                    │
+             ┌───────────────────┬──────────────────┴──────────────────┐
+             ▼                   ▼                                     ▼
+     [HashiCorp Vault]   [Prometheus/Grafana]                     [ELK Stack]
+     (Secret Lookup)    (Telemetry Observability)              (Centralized Logs)
 ```
+
+Refer to the following detailed files in the [architecture directory](file:///Users/sameerrathod/Desktop/astronet/architecture):
+- [Logical System Architecture](file:///Users/sameerrathod/Desktop/astronet/architecture/system-architecture.md)
+- [Kubernetes Deployment Topology](file:///Users/sameerrathod/Desktop/astronet/architecture/deployment-architecture.md)
+- [Pipeline & Data Flow Matrix](file:///Users/sameerrathod/Desktop/astronet/architecture/data-flow.md)
 
 ---
 
-## 🚀 Quick Start
+## 🛠️ Technology Stack
+
+- **Frontend Application**: React 19 (Vite SPA), Tailwind CSS v3, React Router v7, Recharts, Three.js, Lucide Icons.
+- **Backend Application**: Node.js, Express.js, Mongoose ODM, Winston Logger, Morgan HTTP logger.
+- **Data Store**: MongoDB 7.0 / AWS DocumentDB.
+- **CI/CD Pipeline**: Jenkins Declarative DSL, Docker Build Engine.
+- **Infrastructure**: Terraform v1.5+, AWS Provider (VPC, Subnets, EKS, DocumentDB, SG).
+- **Orchestration**: Kubernetes v1.28+ (Deployments, Services, NodePort, Ingress Routing, HPA, PVC).
+- **Monitoring & Metrics**: Prometheus v2.48, Grafana v10.2.
+- **Centralized Logging**: Elasticsearch v8.11, Logstash v8.11, Kibana v8.11.
+- **Secrets Governance**: HashiCorp Vault v1.15.
+
+---
+
+## 🚀 Local Setup Instructions
 
 ### Prerequisites
 - Node.js 18+
-- MongoDB 7+ (or Docker)
 - npm 9+
+- Docker & Docker Compose
 
-### 1. Clone & Setup
-
+### 1. Initialize Dependency Packages
+Run the root-level helper script to install client and server packages simultaneously:
 ```bash
-# Install all dependencies
-cd server && npm install
-cd ../client && npm install
+npm install
+npm run install-all
 ```
 
-### 2. Configure Environment
-
+### 2. Configure Environment Variables
+Duplicate the root environment template into your server folder:
 ```bash
 cp .env.example server/.env
-# Edit server/.env if needed (defaults work for local development)
 ```
+*(The default values in `server/.env` are optimized to run locally).*
 
-### 3. Seed the Database
-
+### 3. Seed Database Collections
+Add dummy users, space missions, and logs to MongoDB:
 ```bash
-cd server
-node scripts/seed.js
+npm run seed
 ```
+**Login Credentials**:
+- **Admin**: `admin@astronet.io` / `Admin@123`
+- **Controller**: `controller@astronet.io` / `Control@123`
+- **Analyst**: `analyst@astronet.io` / `Analyst@123`
 
-Output:
-```
-✅ Connected to MongoDB
-👥 Created 4 users
-🚀 Created 5 missions
-⚠️  Created incidents
-📋 Created 15 log entries
-📡 Created telemetry data
-
-📌 Login credentials:
-   Admin:      admin@astronet.io    / Admin@123
-   Controller: controller@astronet.io / Control@123
-   Analyst:    analyst@astronet.io   / Analyst@123
-```
-
-### 4. Start Development Servers
-
+### 4. Run Development Servers
+To run both backend API and frontend Vite servers concurrently:
 ```bash
-# Terminal 1 – Backend (port 5001)
-cd server && npm run dev
-
-# Terminal 2 – Frontend (port 5173)
-cd client && npm run dev
+npm run dev
 ```
-
-Open: **http://localhost:5173**
+Open **[http://localhost:5173](http://localhost:5173)** in your browser.
 
 ---
 
-## 🐳 Docker Deployment
+## 🐳 Docker Deployment Instructions
+
+To run the complete suite of AstroNet services along with the monitoring, logging, and security stacks locally:
 
 ```bash
+# Spin up all containers in detached mode
 docker-compose up -d
 ```
 
-Access at: **http://localhost:5173**
+### Running Services URLs:
+- **AstroNet Web Client**: `http://localhost:5173`
+- **AstroNet REST API**: `http://localhost:5000`
+- **Prometheus Dashboard**: `http://localhost:9090`
+- **Grafana Dashboard**: `http://localhost:3000` (User: `admin`, Password: `admin`)
+- **HashiCorp Vault UI**: `http://localhost:8200` (Dev root token: `root`)
+- **Kibana Web Log Feed**: `http://localhost:5601`
 
 ---
 
-## 🔌 API Endpoints
+## ⛵ Kubernetes Deployment Instructions
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/auth/login` | ❌ | Login, returns JWT |
-| POST | `/api/auth/register` | ❌ | Register user |
-| GET | `/api/auth/me` | ✅ | Current user |
-| GET | `/api/missions` | ✅ | All missions |
-| GET | `/api/missions/stats` | ✅ | Mission statistics |
-| POST | `/api/missions` | ✅ Controller | Create mission |
-| GET | `/api/telemetry/live` | ✅ | Live simulated telemetry |
-| GET | `/api/incidents` | ✅ | All incidents |
-| POST | `/api/incidents/:id/timeline` | ✅ | Add timeline event |
-| GET | `/api/logs` | ✅ | System logs (searchable) |
-| GET | `/api/devops/status` | ✅ | DevOps services status |
-| GET | `/api/analytics/overview` | ✅ | Chart data |
-| GET | `/api/users` | ✅ Admin | User management |
+All Kubernetes manifests are stored inside the [kubernetes directory](file:///Users/sameerrathod/Desktop/astronet/kubernetes).
 
----
+```bash
+# 1. Create namespace
+kubectl apply -f kubernetes/namespace.yaml
 
-## 🎨 Design System
+# 2. Apply config maps and credentials secrets
+kubectl apply -f kubernetes/configmap.yaml
+kubectl apply -f kubernetes/secret.yaml
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-900` | `#020817` | Primary background |
-| `--cyan` | `#00d4ff` | Primary accent, links |
-| `--nebula` | `#7b2fff` | Secondary accent, admin |
-| `--rocket` | `#ff6b35` | Alerts, critical states |
-| `--mission-green` | `#00ff88` | Active/nominal states |
-| `--gold` | `#ffd700` | Warnings, standby |
+# 3. Create MongoDB Persistent Volume Claim and Deployments
+kubectl apply -f kubernetes/deployment.yaml
 
-- **Fonts**: Orbitron (headings) + Inter (body) + JetBrains Mono (code)
-- **Glassmorphism**: `backdrop-blur-md` + `rgba(255,255,255,0.05)`
+# 4. Expose deployments via Services
+kubectl apply -f kubernetes/service.yaml
+
+# 5. Apply Ingress path routing
+kubectl apply -f kubernetes/ingress.yaml
+
+# 6. Enable HPA autoscaling
+kubectl apply -f kubernetes/autoscaling.yaml
+```
+
+To access the services inside a local cluster (e.g. Minikube):
+```bash
+# Fetch access URL for frontend
+minikube service astronet-frontend-service -n astronet --url
+```
 
 ---
 
-## 👥 Roles & Permissions
+## 📈 Monitoring Setup
 
-| Role | Access |
-|------|--------|
-| **Admin** | Full access — user management, delete missions |
-| **Controller** | Create/update missions, manage incidents |
-| **Analyst** | Read-only access to all data |
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **React 18** + **Vite** — SPA framework
-- **React Router v6** — Client-side routing
-- **Tailwind CSS v3** — Utility-first styling
-- **Framer Motion** — Animations and transitions
-- **Three.js** + **React Three Fiber** + **Drei** — 3D Earth scene
-- **Recharts** — Data visualization
-- **Axios** — HTTP client
-- **Lucide React** — Icon library
-- **React Hot Toast** — Notifications
-- **date-fns** — Date formatting
-
-### Backend
-- **Node.js** + **Express.js** — REST API server
-- **MongoDB** + **Mongoose** — Database + ODM
-- **JWT** + **bcryptjs** — Authentication
-- **Helmet** + **CORS** — Security middleware
-- **Morgan** + **Winston** — Logging
-- **dotenv** — Environment configuration
+Prometheus collects operational telemetry, which Grafana visualizes:
+1. Ensure the `prometheus` and `grafana` containers are active via Docker.
+2. Access **Grafana** (`http://localhost:3000`), navigate to **Connections** > **Data Sources**, and add **Prometheus** (URL: `http://prometheus:9090`).
+3. Click **Dashboards** > **New** > **Import**.
+4. Upload or copy-paste the JSON file from [grafana-dashboard.json](file:///Users/sameerrathod/Desktop/astronet/monitoring/grafana-dashboard.json) to render the Mission Telemetry dashboard.
 
 ---
 
-## 📸 Pages
+## 📋 Centralized Logging Setup
 
-| Page | Route | Description |
-|------|-------|-------------|
-| Landing | `/` | 3D Hero, Stats, Features, CTA |
-| Login | `/login` | JWT authentication |
-| Dashboard | `/dashboard` | Mission board, alerts, telemetry feed |
-| Telemetry | `/telemetry` | Live gauges, subsystem status |
-| Analytics | `/analytics` | Recharts visualizations |
-| Incidents | `/incidents` | Timeline, recovery actions |
-| System Logs | `/logs` | Searchable log stream |
-| DevOps | `/devops` | 8 service cards + deployments |
-| Admin | `/admin` | Users, missions, service health |
+Centralized logs are routed via Logstash to Elasticsearch:
+1. Logstash listens on TCP port `50000` for application logs (defined in [logstash.conf](file:///Users/sameerrathod/Desktop/astronet/logging/logstash.conf)).
+2. Log in to **Kibana** (`http://localhost:5601`), head to **Stack Management** > **Data Views**.
+3. Create a data view with the index pattern `astronet-logs-*`.
+4. Open the **Discover** tab to view, search, and filter real-time telemetry logs.
+5. Refer to [kibana-setup.md](file:///Users/sameerrathod/Desktop/astronet/logging/kibana-setup.md) for detailed KQL queries and dashboard setup.
 
 ---
 
-*Built with ❤️ for the stars* 🌌
+## 🔒 Vault Setup
+
+HashiCorp Vault manages secrets instead of static files:
+1. Vault is configured via [vault-config.hcl](file:///Users/sameerrathod/Desktop/astronet/vault/vault-config.hcl).
+2. Execute the bootstrap script to initialize paths, write credentials, and set security policies:
+   ```bash
+   sh vault/secrets-bootstrap.sh
+   ```
+3. Test integration by running the Node.js client retrieval mock:
+   ```bash
+   node vault/vault-client.js
+   ```
+
+---
+
+## 🚨 Disaster Recovery Strategy
+
+We have established comprehensive plans for system failures, container crashes, and regional outages:
+- **Backup Strategy**: Daily MongoDB dumps and EBS snapshot routines. [backup-strategy.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/backup-strategy.md).
+- **Restore Procedure**: Rebuilding database states and cluster PVCs. [restore-procedure.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/restore-procedure.md).
+- **Rollback Procedure**: Reverting releases using Git, Jenkins, and K8s undo rolls. [rollback-procedure.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/rollback-procedure.md).
+- **Incident Response Plan**: SOP playbooks detailing root causes and resolution triggers for EKS outages. [incident-response-plan.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/incident-response-plan.md).
+
+---
+
+## 📸 Screenshots Section Placeholders
+
+For your final academic submission, capture and paste screenshots demonstrating verification:
+1. **Docker Compose Orchestration Active**: `[Insert Screenshot of active terminal / Docker Desktop list showing 9 healthy containers]`
+2. **Kubernetes Rollout Complete**: `[Insert screenshot of kubectl get pods -n astronet showing active replicas]`
+3. **Jenkins Successful Build Stages**: `[Insert screenshot of Jenkins Blue Ocean or Stage View displaying green blocks for all 9 stages]`
+4. **Grafana Mission Metrics Active**: `[Insert screenshot of your Mission Control telemetry dashboard]`
+5. **Kibana Log Query Result**: `[Insert screenshot of Kibana Discover page filtering log events]`
+6. **Vault KV Secrets Storage UI**: `[Insert screenshot of Vault Browser UI showing populated credentials under secret/astronet/config]`
+
+---
+
+## 🚀 Future Enhancements
+
+- **GitOps Implementation**: Integrate ArgoCD to automate deployments directly from Git repository changes.
+- **Service Mesh**: Deploy Istio inside the EKS cluster for mtls encrypted pod-to-pod communication.
+- **Chaos Engineering**: Integrate Chaos Mesh to test cluster reliability by randomly killing pods during simulation.

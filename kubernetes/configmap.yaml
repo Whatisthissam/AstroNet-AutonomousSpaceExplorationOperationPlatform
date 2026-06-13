@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: astronet-config
+  namespace: astronet
+data:
+  # ==========================================
+  # Backend Configurations
+  # ==========================================
+  NODE_ENV: "production"
+  PORT: "5000"
+  LOG_LEVEL: "info"
+  CLIENT_URL: "http://astronet.local"
+  
+  # ==========================================
+  # Database Configurations
+  # ==========================================
+  # Note: pointing to internal K8s service by default
+  MONGO_URI: "mongodb://astronet-mongodb-service.astronet.svc.cluster.local:27017/astronet"
+  
+  # ==========================================
+  # Logging & Monitoring Integration
+  # ==========================================
+  VAULT_ADDR: "http://astronet-vault-service.astronet.svc.cluster.local:8200"
+  LOGSTASH_HOST: "astronet-logstash-service.astronet.svc.cluster.local"
+  LOGSTASH_PORT: "50000"

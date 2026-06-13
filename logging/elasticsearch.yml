@@ -1,0 +1,30 @@
+# ==========================================
+# Elasticsearch Node Configuration
+# ==========================================
+
+cluster.name: astronet-logging-cluster
+node.name: node-1
+
+# Allow connections from any IP interface
+network.host: 0.0.0.0
+
+# Port definitions
+http.port: 9200
+transport.port: 9300
+
+# Configure single-node discovery (bypasses bootstrap checks)
+discovery.type: single-node
+
+# Security Configurations
+# WARNING: Security is disabled by default for ease of academic local orchestration.
+# Enable security and SSL protocols in production environments.
+xpack.security.enabled: false
+xpack.security.enrollment.enabled: false
+
+# CORS settings for Kibana client access
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+# Index management and memory allocation defaults
+indices.query.bool.max_clause_count: 1024
+bootstrap.memory_lock: false
