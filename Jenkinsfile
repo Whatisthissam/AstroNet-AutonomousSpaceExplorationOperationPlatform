@@ -71,7 +71,7 @@ pipeline {
             steps {
                 echo '=== Stage 3: Running Test Suite & Linters ==='
                 dir('client') {
-                    sh 'npm run lint || true' # Run ESLint lint checks, capture failures gracefully
+                    sh 'npm run lint || true'
                 }
                 dir('server') {
                     # Execute unit/integration tests
