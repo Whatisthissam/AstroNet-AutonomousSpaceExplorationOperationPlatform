@@ -74,8 +74,8 @@ pipeline {
                     sh 'npm run lint || true'
                 }
                 dir('server') {
-                    # Execute unit/integration tests
-                    # sh 'npm test'
+                    // Execute unit/integration tests
+                    // sh 'npm test'
                     echo 'Backend test simulation passed successfully.'
                 }
             }
@@ -109,7 +109,7 @@ pipeline {
                 echo '=== Stage 5: Preparing Backend Node App ==='
                 dir('server') {
                     echo 'Pruning non-production server dependencies...'
-                    # npm prune --production
+                    // npm prune --production
                 }
             }
         }
@@ -172,7 +172,7 @@ pipeline {
                       sh "kubectl apply -f kubernetes/configmap.yaml"
                       sh "kubectl apply -f kubernetes/secret.yaml"
                       
-                      # Deploy workloads with the dynamic build tag
+                      // Deploy workloads with the dynamic build tag
                       sh "sed -i 's|astronet-client:latest|${IMAGE_FRONTEND}:${BUILD_TAG}|g' kubernetes/deployment.yaml"
                       sh "sed -i 's|astronet-server:latest|${IMAGE_BACKEND}:${BUILD_TAG}|g' kubernetes/deployment.yaml"
                       
@@ -196,12 +196,12 @@ pipeline {
         stage('Post Deployment Verification') {
             steps {
                 echo '=== Stage 9: Verification Checks ==='
-                # Query K8s rollout status to ensure pods are running
-                # sh "kubectl rollout status deployment/astronet-backend-deployment -n astronet"
+                // Query K8s rollout status to ensure pods are running
+                // sh "kubectl rollout status deployment/astronet-backend-deployment -n astronet"
                 
-                # Check HTTP health endpoint response
+                // Check HTTP health endpoint response
                 echo "Verifying server api/health status..."
-                # sh "curl --fail http://astronet.api.local/api/health"
+                // sh "curl --fail http://astronet.api.local/api/health"
                 echo "Rollout verified: Status OPERATIONAL."
             }
         }
@@ -220,11 +220,11 @@ pipeline {
         }
         success {
             echo "🎉 Pipeline Completed Successfully! Build #${env.BUILD_NUMBER} is now live."
-            # sendEmailNotification('success')
+            // sendEmailNotification('success')
         }
         failure {
             echo "❌ Pipeline Failed! Check build output of stage that failed."
-            # sendEmailNotification('failure')
+            // sendEmailNotification('failure')
         }
     }
 }
