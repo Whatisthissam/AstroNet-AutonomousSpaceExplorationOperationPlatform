@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 environment {
     DOCKER_REGISTRY = 'docker.io'
     DOCKER_ORG = 'astronet'
