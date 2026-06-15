@@ -1,224 +1,416 @@
 # 🚀 AstroNet – Autonomous Space Exploration Operations Platform
 
-> **Enterprise-Grade DevOps & Site Reliability Engineering (SRE) Demonstration Project**  
-> An academic MERN-stack space mission control and operations center scaled with Terraform, Kubernetes, Jenkins CI/CD, Prometheus, Grafana, ELK Stack, and HashiCorp Vault.
+A complete DevOps implementation project demonstrating containerization, CI/CD automation, Kubernetes orchestration, monitoring, centralized logging, secrets management, disaster recovery planning, and Infrastructure as Code.
 
 ---
 
-## 🌌 Project Overview
+# 📖 Project Overview
 
-**AstroNet** is a real-time NASA-grade space exploration mission control simulation platform. Originally built on a MERN (MongoDB, Express, React, Node.js) stack, this project has been elevated to an **enterprise-ready DevOps showcase**. It features a modern, space-themed futuristic user interface, dynamic telemetry updates, mission configuration panels, system audit logging, and a dedicated DevOps operations control dashboard.
+AstroNet is a web-based mission operations platform designed to simulate mission monitoring and management activities for space exploration systems.
 
----
-
-## ⚠️ Problem Statement
-
-Space exploration missions involve high-velocity telemetry streams, strict security configurations, and zero-tolerance limits for application downtime. Standard monolithic setups suffer from single-point-of-failure vulnerabilities, untracked operational logs, hardcoded security keys, manual deploy bottlenecks, and lack of system metrics tracking. 
-
-AstroNet addresses these constraints by demonstrating how to migrate a modern full-stack web application into a highly available, monitored, secured, and automated containerized cloud architecture.
+The project focuses on implementing a complete DevOps workflow using industry-standard tools and practices. It demonstrates how modern applications can be containerized, deployed, monitored, secured, and managed efficiently.
 
 ---
 
-## 🎯 Objectives
+# ❓ Problem Statement
 
-1. **Automation**: Build a complete Jenkins declarative CI/CD pipeline from checkout to verification checks.
-2. **Infrastructure-as-Code (IaC)**: Script scalable, repeatable cloud infrastructure components on AWS using Terraform modules.
-3. **Container Orchestration**: Standardize microservices scaling, ingress path routing, and volume storage using Kubernetes (EKS).
-4. **Telemetry Observability**: Establish Prometheus pollers and Grafana dashboard alerts tracking system health and simulated telemetry values.
-5. **Centralized Auditing**: Direct all stdout stream logs through Logstash pipelines into Elasticsearch for Kibana search indexing.
-6. **Key Governance**: Move secrets out of configuration files and load them dynamically from a HashiCorp Vault KV secrets engine.
-7. **Disaster Recovery**: Implement automated database dumps, pod rollbacks, and recovery playbooks for production outages.
+Modern applications require automated deployment, monitoring, logging, security, and infrastructure management. Traditional deployment methods involve manual configurations that are time-consuming and error-prone.
+
+Managing deployments, monitoring, logs, and secrets separately becomes increasingly difficult as applications scale.
 
 ---
 
-## 🏗️ Architecture
+# 💡 Proposed Solution
 
-AstroNet implements a fully automated DevOps pipeline feeding an isolated cluster environment:
+AstroNet integrates multiple DevOps technologies into a single workflow:
 
-```
-[GitHub Repo] ──(Webhook)──> [Jenkins Pipeline] ──(Docker Build)──> [Container Registry]
-                                                                          │
-[Users / Clients] ──> [AWS ALB / Ingress] ──> [Kubernetes Pods] <─────────┘
-                                                    │
-             ┌───────────────────┬──────────────────┴──────────────────┐
-             ▼                   ▼                                     ▼
-     [HashiCorp Vault]   [Prometheus/Grafana]                     [ELK Stack]
-     (Secret Lookup)    (Telemetry Observability)              (Centralized Logs)
-```
+* Docker for containerization
+* Jenkins for CI/CD automation
+* Kubernetes for orchestration
+* Prometheus for monitoring
+* Grafana for visualization
+* ELK Stack for centralized logging
+* HashiCorp Vault for secrets management
+* Terraform for Infrastructure as Code
 
-Refer to the following detailed files in the [architecture directory](file:///Users/sameerrathod/Desktop/astronet/architecture):
-- [Logical System Architecture](file:///Users/sameerrathod/Desktop/astronet/architecture/system-architecture.md)
-- [Kubernetes Deployment Topology](file:///Users/sameerrathod/Desktop/astronet/architecture/deployment-architecture.md)
-- [Pipeline & Data Flow Matrix](file:///Users/sameerrathod/Desktop/astronet/architecture/data-flow.md)
+This approach improves scalability, reliability, automation, and operational visibility.
 
 ---
 
-## 🛠️ Technology Stack
+# 🛠 Technology Stack
 
-- **Frontend Application**: React 19 (Vite SPA), Tailwind CSS v3, React Router v7, Recharts, Three.js, Lucide Icons.
-- **Backend Application**: Node.js, Express.js, Mongoose ODM, Winston Logger, Morgan HTTP logger.
-- **Data Store**: MongoDB 7.0 / AWS DocumentDB.
-- **CI/CD Pipeline**: Jenkins Declarative DSL, Docker Build Engine.
-- **Infrastructure**: Terraform v1.5+, AWS Provider (VPC, Subnets, EKS, DocumentDB, SG).
-- **Orchestration**: Kubernetes v1.28+ (Deployments, Services, NodePort, Ingress Routing, HPA, PVC).
-- **Monitoring & Metrics**: Prometheus v2.48, Grafana v10.2.
-- **Centralized Logging**: Elasticsearch v8.11, Logstash v8.11, Kibana v8.11.
-- **Secrets Governance**: HashiCorp Vault v1.15.
-
----
-
-## 🚀 Local Setup Instructions
-
-### Prerequisites
-- Node.js 18+
-- npm 9+
-- Docker & Docker Compose
-
-### 1. Initialize Dependency Packages
-Run the root-level helper script to install client and server packages simultaneously:
-```bash
-npm install
-npm run install-all
-```
-
-### 2. Configure Environment Variables
-Duplicate the root environment template into your server folder:
-```bash
-cp .env.example server/.env
-```
-*(The default values in `server/.env` are optimized to run locally).*
-
-### 3. Seed Database Collections
-Add dummy users, space missions, and logs to MongoDB:
-```bash
-npm run seed
-```
-**Login Credentials**:
-- **Admin**: `admin@astronet.io` / `Admin@123`
-- **Controller**: `controller@astronet.io` / `Control@123`
-- **Analyst**: `analyst@astronet.io` / `Analyst@123`
-
-### 4. Run Development Servers
-To run both backend API and frontend Vite servers concurrently:
-```bash
-npm run dev
-```
-Open **[http://localhost:5173](http://localhost:5173)** in your browser.
+| Category               | Technology            |
+| ---------------------- | --------------------- |
+| Frontend               | React + Vite          |
+| Backend                | Node.js + Express     |
+| Database               | MongoDB               |
+| Version Control        | GitHub                |
+| Containerization       | Docker                |
+| CI/CD                  | Jenkins               |
+| Orchestration          | Kubernetes (Minikube) |
+| Monitoring             | Prometheus            |
+| Visualization          | Grafana               |
+| Logging                | ELK Stack             |
+| Secrets Management     | HashiCorp Vault       |
+| Infrastructure as Code | Terraform             |
 
 ---
 
-## 🐳 Docker Deployment Instructions
+# ✨ Key Features
 
-To run the complete suite of AstroNet services along with the monitoring, logging, and security stacks locally:
-
-```bash
-# Spin up all containers in detached mode
-docker-compose up -d
-```
-
-### Running Services URLs:
-- **AstroNet Web Client**: `http://localhost:5173`
-- **AstroNet REST API**: `http://localhost:5000`
-- **Prometheus Dashboard**: `http://localhost:9090`
-- **Grafana Dashboard**: `http://localhost:3000` (User: `admin`, Password: `admin`)
-- **HashiCorp Vault UI**: `http://localhost:8200` (Dev root token: `root`)
-- **Kibana Web Log Feed**: `http://localhost:5601`
+* Containerized application deployment
+* Automated CI/CD pipeline
+* Kubernetes orchestration
+* Monitoring and observability
+* Centralized logging
+* Secrets management
+* Disaster recovery planning
+* Infrastructure as Code implementation
 
 ---
 
-## ⛵ Kubernetes Deployment Instructions
+# 🏗 System Architecture
 
-All Kubernetes manifests are stored inside the [kubernetes directory](file:///Users/sameerrathod/Desktop/astronet/kubernetes).
+<p align="center">
+  <img src="Implementation-Screenshots/architecture1.png" width="1000"/>
+</p>
+
+The architecture combines application services, monitoring tools, logging components, and security services into a single integrated ecosystem.
+
+---
+
+# ⚙️ DevOps Deployment Architecture
+
+<p align="center">
+  <img src="Implementation-Screenshots/devopsarchitecture2.png" width="1000"/>
+</p>
+
+The deployment workflow automates code delivery from GitHub to Kubernetes through Jenkins and Docker, reducing manual intervention and improving deployment consistency.
+
+---
+
+# 📊 Monitoring & Logging Architecture
+
+<p align="center">
+  <img src="Implementation-Screenshots/monitoring.png" width="1000"/>
+</p>
+
+Monitoring and logging services work together to provide complete visibility into application performance and operational activities.
+
+---
+
+# 🔄 Disaster Recovery Architecture
+
+<p align="center">
+  <img src="Implementation-Screenshots/disaster-recovery.png" width="1000"/>
+</p>
+
+If the application stops working due to a failure, the project can be recovered using the GitHub repository, Docker images, and Kubernetes files. These resources help bring the system back online quickly without rebuilding everything from scratch.
+
+---
+
+# 📂 Project Structure
 
 ```bash
-# 1. Create namespace
-kubectl apply -f kubernetes/namespace.yaml
-
-# 2. Apply config maps and credentials secrets
-kubectl apply -f kubernetes/configmap.yaml
-kubectl apply -f kubernetes/secret.yaml
-
-# 3. Create MongoDB Persistent Volume Claim and Deployments
-kubectl apply -f kubernetes/deployment.yaml
-
-# 4. Expose deployments via Services
-kubectl apply -f kubernetes/service.yaml
-
-# 5. Apply Ingress path routing
-kubectl apply -f kubernetes/ingress.yaml
-
-# 6. Enable HPA autoscaling
-kubectl apply -f kubernetes/autoscaling.yaml
-```
-
-To access the services inside a local cluster (e.g. Minikube):
-```bash
-# Fetch access URL for frontend
-minikube service astronet-frontend-service -n astronet --url
+astronet/
+├── client/
+├── server/
+├── kubernetes/
+├── monitoring/
+├── logging/
+├── vault/
+├── terraform/
+├── disaster-recovery/
+├── Implementation-Screenshots/
+├── Jenkinsfile
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
 
-## 📈 Monitoring Setup
+# 📸 Application Screens
 
-Prometheus collects operational telemetry, which Grafana visualizes:
-1. Ensure the `prometheus` and `grafana` containers are active via Docker.
-2. Access **Grafana** (`http://localhost:3000`), navigate to **Connections** > **Data Sources**, and add **Prometheus** (URL: `http://prometheus:9090`).
-3. Click **Dashboards** > **New** > **Import**.
-4. Upload or copy-paste the JSON file from [grafana-dashboard.json](file:///Users/sameerrathod/Desktop/astronet/monitoring/grafana-dashboard.json) to render the Mission Telemetry dashboard.
+## Landing Page
 
----
+![Landing Page](Implementation-Screenshots/LandingPage.png)
 
-## 📋 Centralized Logging Setup
-
-Centralized logs are routed via Logstash to Elasticsearch:
-1. Logstash listens on TCP port `50000` for application logs (defined in [logstash.conf](file:///Users/sameerrathod/Desktop/astronet/logging/logstash.conf)).
-2. Log in to **Kibana** (`http://localhost:5601`), head to **Stack Management** > **Data Views**.
-3. Create a data view with the index pattern `astronet-logs-*`.
-4. Open the **Discover** tab to view, search, and filter real-time telemetry logs.
-5. Refer to [kibana-setup.md](file:///Users/sameerrathod/Desktop/astronet/logging/kibana-setup.md) for detailed KQL queries and dashboard setup.
+AstroNet provides a centralized mission control dashboard where users can access different modules, monitor mission activities, and manage operational information through a user-friendly interface.
 
 ---
 
-## 🔒 Vault Setup
+## Dashboard
 
-HashiCorp Vault manages secrets instead of static files:
-1. Vault is configured via [vault-config.hcl](file:///Users/sameerrathod/Desktop/astronet/vault/vault-config.hcl).
-2. Execute the bootstrap script to initialize paths, write credentials, and set security policies:
-   ```bash
-   sh vault/secrets-bootstrap.sh
-   ```
-3. Test integration by running the Node.js client retrieval mock:
-   ```bash
-   node vault/vault-client.js
-   ```
+![Dashboard](Implementation-Screenshots/Dashboard.png)
+
+The dashboard presents mission-related information in a structured format, making it easier to monitor operations and access important project features.
 
 ---
 
-## 🚨 Disaster Recovery Strategy
+## Analytics Dashboard
 
-We have established comprehensive plans for system failures, container crashes, and regional outages:
-- **Backup Strategy**: Daily MongoDB dumps and EBS snapshot routines. [backup-strategy.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/backup-strategy.md).
-- **Restore Procedure**: Rebuilding database states and cluster PVCs. [restore-procedure.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/restore-procedure.md).
-- **Rollback Procedure**: Reverting releases using Git, Jenkins, and K8s undo rolls. [rollback-procedure.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/rollback-procedure.md).
-- **Incident Response Plan**: SOP playbooks detailing root causes and resolution triggers for EKS outages. [incident-response-plan.md](file:///Users/sameerrathod/Desktop/astronet/disaster-recovery/incident-response-plan.md).
+![Analytics Dashboard](Implementation-Screenshots/Analytics.png)
+
+Mission insights and operational data are organized through visual components, helping users understand system activity more effectively.
 
 ---
 
-## 📸 Screenshots Section Placeholders
+# 🐳 Docker Implementation
 
-For your final academic submission, capture and paste screenshots demonstrating verification:
-1. **Docker Compose Orchestration Active**: `[Insert Screenshot of active terminal / Docker Desktop list showing 9 healthy containers]`
-2. **Kubernetes Rollout Complete**: `[Insert screenshot of kubectl get pods -n astronet showing active replicas]`
-3. **Jenkins Successful Build Stages**: `[Insert screenshot of Jenkins Blue Ocean or Stage View displaying green blocks for all 9 stages]`
-4. **Grafana Mission Metrics Active**: `[Insert screenshot of your Mission Control telemetry dashboard]`
-5. **Kibana Log Query Result**: `[Insert screenshot of Kibana Discover page filtering log events]`
-6. **Vault KV Secrets Storage UI**: `[Insert screenshot of Vault Browser UI showing populated credentials under secret/astronet/config]`
+## Docker Image Creation
+
+![Docker Image Creation](Implementation-Screenshots/dockerimage1.png)
+
+Separate Docker images were created for the frontend and backend services. Packaging the application into containers simplifies deployment and ensures consistency across different systems.
 
 ---
 
-## 🚀 Future Enhancements
+## Docker Images Verification
 
-- **GitOps Implementation**: Integrate ArgoCD to automate deployments directly from Git repository changes.
-- **Service Mesh**: Deploy Istio inside the EKS cluster for mtls encrypted pod-to-pod communication.
-- **Chaos Engineering**: Integrate Chaos Mesh to test cluster reliability by randomly killing pods during simulation.
+![Docker Images Verification](Implementation-Screenshots/dockerimage2.png)
+
+The required Docker images were successfully built and verified. Successful image creation confirmed that the application was ready for containerized deployment.
+
+---
+
+## Docker Desktop Images
+
+![Docker Desktop Images](Implementation-Screenshots/dockerimage-dashboard.png)
+
+Docker Desktop was used to manage and monitor container images. It provided a convenient interface for viewing image details and deployment resources.
+
+---
+
+## Running Docker Containers
+
+![Docker Containers](Implementation-Screenshots/dockercontrainer1.png)
+
+Application services were launched as independent containers. Running containers confirmed that the application components were functioning correctly within isolated environments.
+
+---
+
+## Container Verification
+
+![Container Verification](Implementation-Screenshots/dockercontainer2.png)
+
+Container status verification ensured that all required services were running correctly and communicating with one another.
+
+---
+
+## Multi-Container Deployment
+
+![Multi Container Deployment](Implementation-Screenshots/dockercontainer3.png)
+
+Multiple application services operated together within a shared environment, demonstrating successful container orchestration.
+
+---
+
+## Docker Compose Deployment
+
+![Docker Compose Deployment](Implementation-Screenshots/dockercontainer4.png)
+
+Multiple services were managed together using Docker Compose. This simplified container orchestration and enabled seamless communication between application components.
+
+---
+
+# 🔄 Jenkins CI/CD
+
+## Jenkins Installation
+
+![Jenkins Installation](Implementation-Screenshots/jenkinimage.png)
+
+Jenkins was configured to automate the build and deployment workflow. Automation reduced manual effort and helped maintain a consistent deployment process.
+
+---
+
+## Jenkins Dashboard
+
+![Jenkins Dashboard](Implementation-Screenshots/jenkinuidashboard.png)
+
+Pipeline jobs, build history, and deployment activities were monitored from a centralized dashboard.
+
+---
+
+## Jenkins Pipeline Failure
+
+![Jenkins Pipeline Failure](Implementation-Screenshots/jenkinpipelinefailure.png)
+
+An initial pipeline issue was encountered during implementation. The error was analyzed through build logs and resolved through troubleshooting.
+
+---
+
+## Jenkins Pipeline Success
+
+![Jenkins Pipeline Success](Implementation-Screenshots/jenkinpipelinesuccess.png)
+
+The automated pipeline completed all configured stages successfully. This confirmed that the CI/CD workflow was functioning as expected.
+
+---
+
+# ☸️ Kubernetes Deployment
+
+## Minikube Installation
+
+![Minikube Installation](Implementation-Screenshots/installed-minikube-causeofStorageIssues.png)
+
+Minikube was installed to create a local Kubernetes environment. It provided a lightweight platform for testing and managing containerized workloads.
+
+---
+
+## Running Minikube Cluster
+
+![Running Minikube Cluster](Implementation-Screenshots/minikubes-running-success.png)
+
+The Kubernetes cluster was started successfully and became ready for deployment activities.
+
+---
+
+## Kubernetes Deployment
+
+![Kubernetes Deployment](Implementation-Screenshots/kubernetes-deployment-success.png)
+
+Application resources were deployed using Kubernetes manifests. The deployment process automated workload management and resource allocation.
+
+---
+
+## Kubernetes Pods
+
+![Kubernetes Pods](Implementation-Screenshots/kubernetes-pods-deployed-and-runningsuccess.png)
+
+Application components were running inside Kubernetes pods. Pods allowed services to be managed, monitored, and restarted automatically when required.
+
+---
+
+# 📈 Monitoring
+
+## Prometheus & Grafana Services
+
+![Prometheus and Grafana](Implementation-Screenshots/prometheus\&grafana-containerRunning.png)
+
+Monitoring services were deployed successfully to collect and visualize application metrics.
+
+---
+
+## Prometheus Dashboard
+
+![Prometheus Dashboard](Implementation-Screenshots/prometheusDashboard.png)
+
+Application metrics were collected and displayed through Prometheus. Monitoring these metrics helps identify performance trends and operational issues.
+
+---
+
+## Grafana Dashboard
+
+![Grafana Dashboard](Implementation-Screenshots/grafana-dashboard.png)
+
+Grafana was integrated to visualize application metrics through dashboards. The dashboard was configured successfully, but no metric data was displayed because of a Prometheus datasource configuration issue.
+
+---
+
+# 📜 ELK Stack Logging
+
+## ELK Stack Deployment
+
+![ELK Stack](Implementation-Screenshots/ELK_ContainerRunning1.png)
+
+Elasticsearch, Logstash, and Kibana services were deployed successfully. Together they provide centralized logging and easier troubleshooting capabilities.
+
+---
+
+## ELK Verification
+
+![ELK Verification](Implementation-Screenshots/ELK_ContainerRunning2.png)
+
+All ELK services were verified and confirmed to be running correctly within the environment.
+
+---
+
+## Kibana Dashboard
+
+![Kibana Dashboard](Implementation-Screenshots/elk dashboard.png)
+
+Kibana was successfully deployed and accessed through the web interface for centralized log management and analysis.
+
+---
+
+# 🔐 HashiCorp Vault
+
+## Vault Deployment
+
+![Vault Deployment](Implementation-Screenshots/vault-running.png)
+
+Sensitive credentials and configuration secrets were managed securely using Vault.
+
+---
+
+## Vault Verification
+
+![Vault Verification](Implementation-Screenshots/vault-running2.png)
+
+Vault services were verified to ensure proper operation of the secret management environment.
+
+---
+
+# 🏗 Terraform (Infrastructure as Code)
+
+## Terraform Installation
+
+![Terraform Installation](Implementation-Screenshots/terraform-installed.png)
+
+Terraform was installed to demonstrate Infrastructure as Code concepts.
+
+---
+
+## Terraform Initialization
+
+![Terraform Initialization](Implementation-Screenshots/terraform-initialised.png)
+
+Required providers and dependencies were downloaded successfully during initialization.
+
+---
+
+## Terraform Validation Error
+
+![Terraform Validation Error](Implementation-Screenshots/terraform-error.png)
+
+Configuration validation identified missing module references and provider configuration issues during testing.
+
+---
+
+# ⚠️ Challenges Faced
+
+* Jenkins pipeline syntax errors during initial setup
+* Docker port conflict while deploying backend services
+* Kubernetes namespace and deployment configuration issues
+* Grafana dashboard showing no metrics due to Prometheus datasource configuration
+* Terraform validation errors caused by missing infrastructure references
+
+These challenges provided valuable hands-on troubleshooting experience throughout the project.
+
+---
+
+# 🚀 Future Enhancements
+
+* AWS EKS deployment
+* Production-grade Terraform infrastructure
+* Advanced Grafana alerting
+* Automated backup strategies
+* Multi-cluster Kubernetes deployment
+* Enhanced monitoring and observability
+
+---
+
+# 🎯 Conclusion
+
+AstroNet successfully demonstrates a complete DevOps workflow using Docker, Jenkins, Kubernetes, Prometheus, Grafana, ELK Stack, Vault, and Terraform. The project provided practical experience with containerization, automation, monitoring, logging, security, and Infrastructure as Code while highlighting real-world deployment challenges and troubleshooting techniques.
+
+---
+
+## 👨‍💻 Author
+
+**Sameer Rathod**
+
+B.tech Computer Science 
+
+
