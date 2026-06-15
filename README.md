@@ -411,6 +411,5 @@ AstroNet successfully demonstrates a complete DevOps workflow using Docker, Jenk
 
 **Sameer Rathod**
 
-B.tech Computer Science 
 
 
