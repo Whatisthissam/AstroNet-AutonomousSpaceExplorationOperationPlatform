@@ -7,7 +7,7 @@ const connectDB = async () => {
 
   while (retries < maxRetries) {
     try {
-      const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/astronet', {
+      const conn = await mongoose.connect(process.env.MONGO_URI, {
         serverSelectionTimeoutMS: 5000,
       });
       logger.info(`✅ MongoDB Connected: ${conn.connection.host}`);

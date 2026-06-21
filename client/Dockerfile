@@ -15,6 +15,10 @@ RUN npm ci
 # Copy the rest of the application files
 COPY . .
 
+# Pass build args to make the API URL available to Vite build
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 # Run the production build via Vite
 RUN npm run build
 

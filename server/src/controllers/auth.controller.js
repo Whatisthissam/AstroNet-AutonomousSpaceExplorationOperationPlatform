@@ -13,14 +13,21 @@ const generateToken = (userId) => {
 // @access  Public
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, role, department } = req.body;
+    const { name, email, password, role, department, clearanceLevel } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'Email already registered' });
     }
 
-    const user = await User.create({ name, email, password, role: role || 'controller', department });
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role: role || 'controller',
+      department,
+      clearanceLevel: clearanceLevel || 2
+    });
     const token = generateToken(user._id);
 
     logger.info(`New user registered: ${email} [${role || 'controller'}]`);
